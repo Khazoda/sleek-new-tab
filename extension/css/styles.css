@@ -312,32 +312,29 @@ body {
   }
 }
 
-.clock-top-left {
+.clock {
   position: fixed;
+  font-size: x-large;
+}
+
+.clock-top-left {
   top: 0.5rem;
   left: 0.5rem;
-  font-size: x-large;
 }
 
 .clock-top-right {
-  position: fixed;
   top: 0.5rem;
   right: 3.5rem;
-  font-size: x-large;
 }
 
 .clock-bottom-left {
-  position: fixed;
   bottom: 0.5rem;
   left: 0.5rem;
-  font-size: x-large;
 }
 
 .clock-bottom-right {
-  position: fixed;
   bottom: 0.5rem;
   right: 0.5rem;
-  font-size: x-large;
 }
 
 /* Settings Button */

@@ -39,17 +39,18 @@ class ModalController {
       });
 
     // Load initial clock position
-    const savedPosition =
-      localStorage.getItem("clock_position") || "bottom-left";
-    this.updateClockPosition(savedPosition);
+    chrome.storage.local.get(["clock_position"], (result) => {
+      const savedPosition = result.clock_position || "bottom-left";
+      this.updateClockPosition(savedPosition);
 
-    // Set the initial radio button state for clock location
-    const radioButton = document.querySelector(
-      `input[name="clock_position"][value="${savedPosition}"]`
-    );
-    if (radioButton) {
-      radioButton.checked = true;
-    }
+      // Set the initial radio button state for clock location
+      const radioButton = document.querySelector(
+        `input[name="clock_position"][value="${savedPosition}"]`
+      );
+      if (radioButton) {
+        radioButton.checked = true;
+      }
+    });
 
     // Initial load of saved data
     this.loadFromStorage();
@@ -256,7 +257,7 @@ class ModalController {
   }
 
   saveClockPosition(position) {
-    localStorage.setItem("clock_position", position);
+    chrome.storage.local.set({ clock_position: position });
     this.updateClockPosition(position);
   }
 

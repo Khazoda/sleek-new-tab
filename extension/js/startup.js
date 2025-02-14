@@ -12,9 +12,9 @@ function showDOM() {
       )
   ).then(() => {
     const elements = document.getElementsByClassName("unloaded");
-    console.log("All images loaded, showing elements:", elements.length);
+    const elementsArray = Array.from(elements);
 
-    for (let element of elements) {
+    for (const element of elementsArray) {
       element.classList.remove("unloaded");
       element.classList.add("loaded");
     }

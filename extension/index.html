@@ -4,8 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="A clean new tab page made by June that has quick links, search engine swapping, a clock and download counters" />
+  <meta name="description" content="A sleek new tab page that has quick links, search engine swapping and a clock" />
   <link rel="stylesheet" href="./css/reset.css" />
   <link rel="stylesheet" href="./css/styles.css" />
   <link rel="preconnect" href="https://www.faviconextractor.com/" />
@@ -16,7 +15,6 @@
   <div class="main-section" id="search-selector">
     <!-- #region Search Engine Selector -->
     <div class="search-wrapper unloaded" id="search-wrapper">
-      <span class="unloaded dummy-element-needed"></span>
       <span class="icon active prevent-selection" id="Google" data-engine="Google">
         <img src="./assets/img/google_icon.svg" alt="" />
         <span class="engine-name">Google</span>
@@ -73,7 +71,8 @@
     <!-- #endregion -->
 
     <!-- #region Time Display -->
-    <span id="time-display" data-visible="true"></span>
+    <span id="time-display" data-visible="true" class="unloaded clock"></span>
+
     <!-- #endregion -->
 
     <!-- #region Settings Modal -->
@@ -101,7 +100,7 @@
             </button>
           </div>
           <div>
-            <h2 id="modal-title" class="modal-title">Customize Shortcuts</h2>
+            <h2 id="customize-shortcuts-title" class="modal-title">Customize Shortcuts</h2>
           </div>
         </div>
         <form>
@@ -139,7 +138,7 @@
           <button type="submit">Apply Shortcuts</button>
           <!-- Optional Settings -->
           <div class="modal-header">
-            <h2 id="modal-title" class="modal-title">Other Settings</h2>
+            <h2 id="optional-settings-title" class="modal-title">Other Settings</h2>
           </div>
           <div class="modal-form-group">
             <div class="radio-wrapper">
@@ -177,7 +176,7 @@
             <div class="toggle-wrapper">
               <span>Enlarge Shortcut Icons</span>
               <input type="checkbox" id="scale_up_shortcuts_toggle" name="scale_up_shortcuts_toggle"
-                class="toggle-input">
+                class="toggle-input" title="Enlarge Shortcut Icons">
               <label for="scale_up_shortcuts_toggle" class="toggle-label"></label>
             </div>
           </div>
