@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="A clean new tab page made by June that has quick links, search engine swapping, a clock and download counters" />
+  <link rel="stylesheet" href="./css/reset.css" />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="preconnect" href="https://www.faviconextractor.com/" />
+  <title>New Tab</title>
+</head>
+
+<body>
+  <div class="main-section" id="search-selector">
+    <!-- #region Search Engine Selector -->
+    <div class="search-wrapper unloaded" id="search-wrapper">
+      <span class="unloaded dummy-element-needed"></span>
+      <span class="icon active prevent-selection" id="Google" data-engine="Google">
+        <img src="./assets/img/google_icon.svg" alt="" />
+        <span class="engine-name">Google</span>
+      </span>
+
+      <div class="engine-select-wrapper prevent-selection">
+        <span class="icon inactive" id="DuckDuckGo" data-engine="DuckDuckGo">
+          <img src="./assets/img/duckduckgo_icon.svg" alt="" />
+          <span class="engine-name">DuckDuckGo</span>
+        </span>
+        <span class="icon inactive" id="Bing" data-engine="Bing">
+          <img src="./assets/img/bing_icon.svg" alt="" />
+          <span class="engine-name">Bing</span>
+        </span>
+
+        <span class="icon spacer">
+          <span class="spacer-inside"></span>
+          <span id="active-engine-name"></span>
+        </span>
+
+        <span class="icon inactive" id="YouTube" data-engine="YouTube">
+          <img src="./assets/img/youtube_icon.svg" alt="" />
+          <span class="engine-name">YouTube</span>
+        </span>
+        <span class="icon inactive" id="Archive" data-engine="Archive">
+          <img src="./assets/img/internet_archive_icon.svg" alt="" />
+          <span class="engine-name">Archive</span>
+        </span>
+      </div>
+      <div class="search-bar">
+        <div class="margin-spacer">
+          <textarea id="autosizable" type="text" title="Search"></textarea>
+        </div>
+      </div>
+      <img class="search-icon" src="./assets/img/search_icon.svg" alt="" aria-label="Search" />
+    </div>
+    <!-- #endregion -->
+
+    <!-- #region Shortcuts -->
+    <div class="shortcuts-wrapper unloaded" id="shortcuts-wrapper">
+      <div class="shortcut">
+        <a rel="noopener noreferrer" class="shortcut-link" href="https://wikipedia.org"><img
+            class="shortcut-img shortcut-img-1 " src="" alt="shortcut link" /></a>
+      </div>
+      <div class="shortcut">
+        <a rel="noopener noreferrer" class="shortcut-link" href="https://khazoda.com"><img
+            class="shortcut-img shortcut-img-2 " src="" alt="shortcut link" /></a>
+      </div>
+      <div class="shortcut">
+        <a rel="noopener noreferrer" class="shortcut-link" href="https://github.com"><img
+            class="shortcut-img shortcut-img-3 " src="" alt="shortcut link" /></a>
+      </div>
+    </div>
+    <!-- #endregion -->
+
+    <!-- #region Time Display -->
+    <span id="time-display" data-visible="true"></span>
+    <!-- #endregion -->
+
+    <!-- #region Settings Modal -->
+    <span class="fixed-to-page top-right">
+      <button class="button-reset" id="settings-button" aria-label="Open settings">
+        <img class="download-icon" src="./assets/img/settings_icon.svg" alt="Settings icon" />
+      </button>
+
+      <!-- Modal backdrop -->
+      <div class="modal-backdrop hidden" id="modal-backdrop"></div>
+
+      <!-- Modal content -->
+      <div class="modal hidden" id="settings-modal" role="dialog" aria-labelledby="modal-title">
+        <!-- Shortcuts -->
+        <div class="modal-header">
+          <div class="modal-header-right">
+            <div class="bug-report-container">
+              <a href="https://github.com/Khazoda/newtab/issues" class="bug-report-button">
+                <img src="./assets/img/bug_report_icon.svg" alt="Bug report icon" class="button-icon">
+                <span>Give Feedback</span>
+              </a>
+            </div>
+            <button class="modal-close" aria-label="Close modal">
+              &times;
+            </button>
+          </div>
+          <div>
+            <h2 id="modal-title" class="modal-title">Customize Shortcuts</h2>
+          </div>
+        </div>
+        <form>
+          <!-- Shortcuts Form -->
+          <div class="modal-form-group">
+
+            <div class="input-wrapper">
+              <div class="shortcut-img-wrapper">
+                <img class="shortcut-img shortcut-img-1" src="" alt="Shortcut 1 favicon" />
+              </div>
+              <input type="text" id="shortcut1" name="shortcut1" placeholder="example.com" />
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div class="modal-form-group">
+
+            <div class="input-wrapper">
+              <div class="shortcut-img-wrapper">
+                <img class="shortcut-img shortcut-img-2" src="" alt="Shortcut 2 favicon" />
+              </div>
+              <input type="text" id="shortcut2" name="shortcut2" placeholder="example.com" />
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <div class="modal-form-group">
+
+            <div class="input-wrapper">
+              <div class="shortcut-img-wrapper">
+                <img class="shortcut-img shortcut-img-3" src="" alt="Shortcut 3 favicon" />
+              </div>
+              <input type="text" id="shortcut3" name="shortcut3" placeholder="example.com" />
+              <div class="spinner"></div>
+            </div>
+          </div>
+          <button type="submit">Apply Shortcuts</button>
+          <!-- Optional Settings -->
+          <div class="modal-header">
+            <h2 id="modal-title" class="modal-title">Other Settings</h2>
+          </div>
+          <div class="modal-form-group">
+            <div class="radio-wrapper">
+              <span>Clock Position</span>
+              <div class="radio-group">
+                <label class="radio-button">
+                  <input type="radio" name="clock_position" value="top-left" class="visually-hidden">
+                  <div class="radio-display">
+                    <img src="./assets/img/box-top-left.svg" alt="Top Left" />
+                  </div>
+                </label>
+                <label class="radio-button">
+                  <input type="radio" name="clock_position" value="top-right" class="visually-hidden">
+                  <div class="radio-display">
+                    <img src="./assets/img/box-top-right.svg" alt="Top Right" />
+                  </div>
+                </label>
+                <label class="radio-button">
+                  <input type="radio" name="clock_position" value="bottom-right" class="visually-hidden">
+                  <div class="radio-display">
+                    <img src="./assets/img/box-bottom-right.svg" alt="Bottom Right" />
+                  </div>
+                </label>
+                <label class="radio-button">
+                  <input type="radio" name="clock_position" value="bottom-left" class="visually-hidden">
+                  <div class="radio-display">
+                    <img src="./assets/img/box-bottom-left.svg" alt="Bottom Left" />
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-form-group">
+            <div class="toggle-wrapper">
+              <span>Enlarge Shortcut Icons</span>
+              <input type="checkbox" id="scale_up_shortcuts_toggle" name="scale_up_shortcuts_toggle"
+                class="toggle-input">
+              <label for="scale_up_shortcuts_toggle" class="toggle-label"></label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </span>
+    <!-- #endregion -->
+  </div>
+  <!-- #region Scripts -->
+  <!-- BUILD:SCRIPTS -->
+  <script src="./js/modal.js" defer></script>
+  <script src="./js/searchbar.js" defer></script>
+  <script src="./js/startup.js" defer></script>
+  <!-- /BUILD:SCRIPTS -->
+  <!-- #endregion -->
+</body>
+
+</html>
