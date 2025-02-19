@@ -6,7 +6,7 @@
     "build-extension": "pnpm minify-js && pnpm process-html && pnpm copy-assets && pnpm create-zip",
     "minify-js": "pnpm exec terser extension/js/searchbar.js extension/js/startup.js extension/js/modal.js -c -m --output extension/dist/bundle.min.js",
     "process-html": "node scripts/process-html.js",
-    "copy-assets": "xcopy /E /I /Y extension\\css extension\\dist\\css && xcopy /E /I /Y extension\\fonts extension\\dist\\fonts && xcopy /E /I /Y extension\\assets extension\\dist\\assets && copy /Y extension\\manifest.json extension\\dist\\",
+    "copy-assets": "xcopy /E /I /Y extension\\css extension\\dist\\css && xcopy /E /I /Y extension\\fonts extension\\dist\\fonts && xcopy /E /I /Y extension\\assets extension\\dist\\assets && xcopy /E /I /Y extension\\icons extension\\dist\\icons && copy /Y extension\\manifest.json extension\\dist\\",
     "create-zip": "cd extension/dist && powershell \"$version = (Get-Content ../../package.json | ConvertFrom-Json).version; Compress-Archive -Path * -DestinationPath ../../releases/sleek-new-tab-v$version.zip -Force\""
   },
   "keywords": [],
