@@ -16,6 +16,8 @@ body {
   height: 100vh;
   font: 16px "Quicksand", "Arial";
   background: linear-gradient(to bottom, #f1f1f1, #e5e5e5);
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 .unloaded {
@@ -260,11 +262,11 @@ body {
   word-wrap: break-word;
 }
 
-@-moz-document url-prefix() {
+/* @-moz-document url-prefix() {
   .search-bar > .margin-spacer > textarea {
     margin-bottom: 5px;
   }
-}
+} */
 
 /* Fixed Page Elements */
 .fixed-to-page {
@@ -689,6 +691,7 @@ body {
   height: 40px;
   object-fit: cover;
   image-rendering: -webkit-optimize-contrast;
+  -webkit-image-rendering: crisp-edges;
   image-rendering: crisp-edges;
 }
 
