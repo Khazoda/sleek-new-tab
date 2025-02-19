@@ -54,6 +54,21 @@ class ModalController {
 
     // Initial load of saved data
     this.loadFromStorage();
+
+    // Add click handlers for shortcut links
+    document.querySelectorAll("a.shortcut-link").forEach((link, index) => {
+      link.addEventListener("click", (e) => {
+        const shortcutKey = `shortcut_${index + 1}`;
+        if (!this.shortcuts[shortcutKey]) {
+          e.preventDefault();
+          this.open();
+          // Focus the corresponding input field
+          setTimeout(() => {
+            document.getElementById(`shortcut${index + 1}`).focus();
+          }, 100);
+        }
+      });
+    });
   }
 
   loadFromStorage() {
@@ -63,9 +78,9 @@ class ModalController {
         this.shortcuts = result.shortcuts;
       } else {
         this.shortcuts = {
-          shortcut_1: "https://www.wikipedia.com",
-          shortcut_2: "https://www.khazoda.com",
-          shortcut_3: "https://www.github.com",
+          shortcut_1: "",
+          shortcut_2: "",
+          shortcut_3: "https://wikipedia.org/wiki/Special:Random",
         };
         chrome.storage.local.set({ shortcuts: this.shortcuts });
       }
@@ -102,12 +117,17 @@ class ModalController {
       for (let i = 1; i <= 3; i++) {
         if (element.classList.contains(`shortcut-img-${i}`)) {
           const shortcutKey = `shortcut_${i}`;
-          const trimmedURL = this.shortcuts[shortcutKey]
-            .replace(/^https?:\/\//, "")
-            .split("/")[0];
+          const url = this.shortcuts[shortcutKey];
+
+          if (!url) {
+            element.src = "./assets/img/empty_shortcut.svg";
+            document.getElementById(`shortcut${i}`).placeholder = "example.com";
+            continue;
+          }
+
+          const trimmedURL = url.replace(/^https?:\/\//, "").split("/")[0];
           element.src = `https://www.faviconextractor.com/favicon/${trimmedURL}?larger=true`;
-          document.getElementById(`shortcut${i}`).placeholder =
-            this.shortcuts[shortcutKey];
+          document.getElementById(`shortcut${i}`).placeholder = url;
         }
       }
     });

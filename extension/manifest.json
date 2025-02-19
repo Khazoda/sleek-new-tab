@@ -9,7 +9,7 @@
     "128": "icons/icon128.png"
   },
   "chrome_url_overrides": {
-    "sleek-new-tab": "index.html"
+    "newtab": "index.html"
   },
   "permissions": ["storage"]
 }
