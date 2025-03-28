@@ -4,14 +4,14 @@ let textArea;
 window.addEventListener("load", () => {
   chrome.storage.local.get(["preferences"], (result) => {
     if (!result.preferences) {
-      prefs = { currentEngine: "Google" };
+      prefs = { currentEngine: "Default" };
       chrome.storage.local.set({ preferences: prefs });
     } else {
       prefs = result.preferences;
     }
 
     swapElements(
-      document.getElementById("Google"),
+      document.getElementById("Default"),
       document.getElementById(prefs.currentEngine)
     );
 
@@ -79,17 +79,33 @@ function executeSearch(e) {
 
 function search(engine, query) {
   // If direct URL, navigate directly instead of searching
-  if (isURL(query)) return (window.location.href = query);
+  if (isURL(query)) {
+    window.location.href = query;
+    return;
+  }
 
+  // Use Chrome Search API for default engine
+  if (engine === "Default") {
+    chrome.search.query({
+      text: query,
+      disposition: "CURRENT_TAB",
+    });
+    return;
+  }
+
+  // For other search engines, use their specific URLs
   const searchUrls = {
     DuckDuckGo: "https://duckduckgo.com/?q=",
     Bing: "https://www.bing.com/search?q=",
-    Google: "https://google.com/search?q=",
     YouTube: "https://www.youtube.com/results?search_query=",
     Archive: "https://archive.org/search?query=",
+    Google: "https://google.com/search?q=",
+    Yahoo: "https://search.yahoo.com/search?p=",
   };
 
-  if (searchUrls[engine]) window.location.href = searchUrls[engine] + query;
+  if (searchUrls[engine]) {
+    window.location.href = searchUrls[engine] + query;
+  }
 }
 
 // Basic URL format validation

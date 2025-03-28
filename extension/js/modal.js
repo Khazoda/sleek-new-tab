@@ -139,21 +139,36 @@ class ModalController {
 
     const newShortcuts = { ...this.shortcuts };
     const shortcutPromises = [1, 2, 3].map((i) => {
-      const value = this.normalizeUrl(
-        document.getElementById(`shortcut${i}`).value
-      );
-      return this.validateAndUpdateShortcut(
-        `shortcut${i}`,
-        value,
-        newShortcuts
-      );
+      const input = document.getElementById(`shortcut${i}`);
+      const inputWrapper = input.closest(".input-wrapper");
+      const value = input.value.trim();
+
+      if (value === "") {
+        // Don't modify the shortcut if field is empty
+        return Promise.resolve();
+      }
+
+      if (!this.isValidUrlFormat(value)) {
+        input.value = "";
+        this.shakeElement(inputWrapper);
+        return Promise.reject();
+      }
+
+      const normalizedUrl = this.normalizeUrl(value);
+      newShortcuts[`shortcut_${i}`] = normalizedUrl;
+      input.value = "";
+      return Promise.resolve();
     });
 
-    await Promise.all(shortcutPromises);
-    this.shortcuts = newShortcuts;
-    chrome.storage.local.set({ shortcuts: this.shortcuts });
-    this.refreshShortcutURLs();
-    this.refreshShortcutIcons();
+    try {
+      await Promise.all(shortcutPromises);
+      this.shortcuts = newShortcuts;
+      chrome.storage.local.set({ shortcuts: this.shortcuts });
+      this.refreshShortcutURLs();
+      this.refreshShortcutIcons();
+    } catch {
+      // If any validation failed, don't save
+    }
   }
 
   saveToggleStates() {
@@ -191,67 +206,44 @@ class ModalController {
   }
 
   normalizeUrl(url) {
+    if (!url) return "";
     url = url.trim();
+    // Handle URLs that start with www.
+    if (url.startsWith("www.")) {
+      return "https://" + url;
+    }
+    // Add https:// if no protocol is specified
     if (!url.match(/^https?:\/\//i)) {
-      return "https://" + url.replace(/^www\./i, "");
+      return "https://" + url;
     }
     return url;
   }
 
-  async validateAndUpdateShortcut(inputId, value, newShortcuts) {
-    const input = document.getElementById(inputId);
-    const inputWrapper = input.closest(".input-wrapper");
-
-    if (value === "https://") return;
-
-    if (!this.isValidUrlFormat(value)) {
-      input.value = "";
-      this.shakeElement(inputWrapper);
-      return;
-    }
-
-    input.disabled = true;
-    inputWrapper.classList.add("checking");
-
-    try {
-      if (await this.URLisValid(value)) {
-        newShortcuts[inputId.replace(/\d+$/, "_$&")] = value;
-        input.value = "";
-      } else {
-        input.value = "";
-        this.shakeElement(inputWrapper);
-        input.focus();
-      }
-    } catch (error) {
-      input.value = "";
-      this.shakeElement(inputWrapper);
-      input.focus();
-    } finally {
-      input.disabled = false;
-      inputWrapper.classList.remove("checking");
-    }
-  }
-
   isValidUrlFormat(url) {
-    return /^.+\..+$/.test(url);
-  }
-
-  async URLisValid(url) {
+    if (!url) return false;
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-      const response = await fetch(url, {
-        mode: "no-cors",
-        signal: controller.signal,
-      });
-      clearTimeout(timeoutId);
-      return true;
-    } catch (error) {
+      // First try parsing as-is
+      const urlWithProtocol = url.match(/^https?:\/\//i)
+        ? url
+        : "https://" + url;
+      const parsedUrl = new URL(urlWithProtocol);
+      // Check for valid domain format (at least one dot)
+      if (!parsedUrl.hostname.includes(".")) {
+        return false;
+      }
+      // Check for common TLDs or at least two parts in domain
+      const parts = parsedUrl.hostname.split(".");
+      if (parts.length < 2 || parts.some((part) => !part)) {
+        return false;
+      }
+      return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:";
+    } catch {
       return false;
     }
   }
 
   shakeElement(element) {
+    if (!element) return;
     element.classList.add("shake");
     element.style.backgroundColor = "#ffe5e9";
     setTimeout(() => {
@@ -291,7 +283,8 @@ class ModalController {
       "clock-top-left",
       "clock-top-right",
       "clock-bottom-left",
-      "clock-bottom-right"
+      "clock-bottom-right",
+      "clock-disabled"
     );
     // Add the new position class after removing all position classes
     const clockClass = `clock-${position}`;

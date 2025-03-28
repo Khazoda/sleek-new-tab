@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Sleek New Tab",
-  "version": "1.0",
+  "version": "1.0.2",
   "description": "A lightweight, aesthetically pleasing and useful new tab page",
   "icons": {
     "16": "icons/icon16.png",
@@ -11,7 +11,7 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "search"],
   "web_accessible_resources": [
     {
       "resources": [
@@ -25,6 +25,6 @@
     }
   ],
   "content_security_policy": {
-    "extension_pages": "default-src 'self'; img-src 'self' https://www.faviconextractor.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://www.faviconextractor.com"
+    "extension_pages": "default-src 'self'; img-src 'self' https://www.faviconextractor.com https://*; style-src 'self' 'unsafe-inline'; connect-src 'self' https://www.faviconextractor.com https://*"
   }
 }

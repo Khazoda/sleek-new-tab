@@ -15,12 +15,16 @@
   <div class="main-section" id="search-selector">
     <!-- #region Search Engine Selector -->
     <div class="search-wrapper unloaded" id="search-wrapper">
-      <span class="icon active prevent-selection" id="Google" data-engine="Google">
-        <img src="./assets/img/google_icon.svg" alt="" />
-        <span class="engine-name">Google</span>
+      <span class="icon active prevent-selection" id="Default" data-engine="Default">
+        <img src="./assets/img/default_search_icon.svg" alt="" />
+        <span class="engine-name">Browser Default</span>
       </span>
 
       <div class="engine-select-wrapper prevent-selection">
+        <span class="icon inactive" id="Google" data-engine="Google">
+          <img src="./assets/img/google_icon.svg" alt="" />
+          <span class="engine-name">Google</span>
+        </span>
         <span class="icon inactive" id="DuckDuckGo" data-engine="DuckDuckGo">
           <img src="./assets/img/duckduckgo_icon.svg" alt="" />
           <span class="engine-name">DuckDuckGo</span>
@@ -33,6 +37,10 @@
         <span class="icon spacer">
           <span class="spacer-inside"></span>
           <span id="active-engine-name"></span>
+        </span>
+        <span class="icon inactive" id="Yahoo" data-engine="Yahoo">
+          <img src="./assets/img/yahoo_icon.svg" alt="" />
+          <span class="engine-name">Yahoo</span>
         </span>
 
         <span class="icon inactive" id="YouTube" data-engine="YouTube">
@@ -144,6 +152,12 @@
             <div class="radio-wrapper">
               <span>Clock Position</span>
               <div class="radio-group">
+                <label class="radio-button">
+                  <input type="radio" name="clock_position" value="disabled" class="visually-hidden">
+                  <div class="radio-display">
+                    <img src="./assets/img/box-empty.svg" alt="disabled" />
+                  </div>
+                </label>
                 <label class="radio-button">
                   <input type="radio" name="clock_position" value="top-left" class="visually-hidden">
                   <div class="radio-display">

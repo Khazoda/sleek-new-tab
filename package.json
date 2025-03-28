@@ -1,6 +1,6 @@
 {
   "name": "sleek-new-tab",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.html",
   "scripts": {
     "build-extension": "pnpm minify-js && pnpm process-html && pnpm copy-assets && pnpm create-zip",
